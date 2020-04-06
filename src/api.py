@@ -145,8 +145,11 @@ class API:
             Returns a list of record database IDs that matched the `query`
         """
 
-        if 'limit' not in options:
-            options['limit'] = 0
+        if not query:
+            query = list()
+
+        if not options:
+            options = {'limit': 0}
 
         return self._query('search', model, query, options)
 
