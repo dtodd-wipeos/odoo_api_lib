@@ -16,6 +16,5 @@
 """
 
 from .api import API
-from .exceptions import InputError
 
 __version__ = '1.0.0'
