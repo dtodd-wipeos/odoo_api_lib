@@ -6,7 +6,9 @@ The current version is 1.0.0. Please check changelog.md for more information.
 
 ## Installation Instructions
 
-TODO
+### Dependencies
+
+None! Everything is in the Python 3.X Standard Library
 
 ## API Usage
 
