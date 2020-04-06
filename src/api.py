@@ -106,7 +106,7 @@ class API:
             return xmlrpc.client.ServerProxy(endpoint, context=ssl._create_unverified_context())
         return xmlrpc.client.ServerProxy(endpoint)
 
-    def _query(self, query_type, model, query, options=dict):
+    def _query(self, query_type, model, query, options=None):
         """
             Verifies the `query_type` is supported by the API
             and executes the API request on a new XMLRPC instance, returning the result
@@ -116,6 +116,12 @@ class API:
             raise InputError(
                 'query_type',
                 'Incorrect Type of query. Available types are: %s' % (', '.join(self.QUERY_TYPES)))
+
+        if not query:
+            query = list()
+
+        if not options:
+            options = dict()
 
         return self._connect().execute_kw(
             self.database, self.user_id, self.user_pass,
@@ -130,7 +136,7 @@ class API:
             # depending on query_type
             options)
 
-    def search(self, model, query=list, options=dict):
+    def search(self, model, query=None, options=None):
         """
             Searches the `model` for `query` with `options`
             Defaults to search all records with no limit.
@@ -172,7 +178,7 @@ class API:
 
         return self._query('create', model, query)
 
-    def read(self, model, query, options=dict):
+    def read(self, model, query, options=None):
         """
             Reads one or more records on `model` with the supplied `query`
 
@@ -187,7 +193,7 @@ class API:
 
         return self._query('read', model, query, options)
 
-    def update(self, model, query, options=dict):
+    def update(self, model, query, options=None):
         """
             Updates one or more records on `model`, selected with `query`
 
@@ -213,7 +219,7 @@ class API:
 
         return self._query('unlink', model, query)
 
-    def search_and_read(self, model, query, options=dict):
+    def search_and_read(self, model, query, options=None):
         """
             Shortcut for `read()` with the result of `search()` being used as the `query`
 
