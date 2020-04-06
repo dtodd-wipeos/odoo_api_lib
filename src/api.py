@@ -123,6 +123,12 @@ class API:
         if not options:
             options = dict()
 
+        # Special case for `update` commands
+        if query_type == 'write':
+            return self._connect().execute_kw(
+                self.database, self.user_id, self.user_pass,
+                model, query_type, [query, options])
+
         return self._connect().execute_kw(
             self.database, self.user_id, self.user_pass,
             # This is the "table" that will be interacted with, in Odoo notation
@@ -214,7 +220,8 @@ class API:
 
             Unlike most other query_types, it does not take any options
 
-            Returns a list of record database IDs that were deleted
+            Returns a boolean that is True when the records are
+            successfully deleted; Otherwise False
         """
 
         return self._query('unlink', model, query)
